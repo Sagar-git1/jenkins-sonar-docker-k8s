@@ -24,10 +24,10 @@ pipeline {
         }
         stage('SonarQube Analysis'){
             environment {
-                scannerHome = tool 'sonar'
+                scannerHome = tool 'sonarscanner' // sonar scanner is the name given when you installed sonar scanner tool under tools section from manage jenkins
             }
             steps {
-                withSonarQubeEnv('sonar'){
+                withSonarQubeEnv('sonar'){ //here sonar is the name given when you add sonar server details in system configuration under manage jenkins
                     sh '${scannerHome}/bin/sonar-scanner'
                 }
             }
