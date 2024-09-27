@@ -10,7 +10,7 @@ pipeline {
     }
     tools {
         maven 'maven-tool'
-        jfrog 'jfrog-cli'
+        jfrog 'jfrogcli'
     }
     stages {
         stage('Build') {
