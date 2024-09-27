@@ -1,4 +1,3 @@
-def registry = 'https://jenkinsuni.jfrog.io'
 pipeline {
     agent {
         node {
