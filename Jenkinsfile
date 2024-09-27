@@ -10,6 +10,7 @@ pipeline {
     }
     tools {
         maven 'maven-tool'
+        jfrog 'jfrog-cli'
     }
     stages {
         stage('Build') {
@@ -60,14 +61,7 @@ pipeline {
         stage('Publish to Artifactory') {
             steps {
                 script {
-                    def server = Artifactory.server(ARTIFACTORY_SERVER)
-                    def uploadSpec = """{
-                        "files": [{
-                            "pattern" : "target/*.jar",
-                            "target" : "${ARTIFACTORY_REPO}/${env.VERSION}/"
-                        }]
-                    }"""
-                    server.upload(uploadSpec)
+                    sh "jfrog rt u 'target/*.jar ${ARTIFACTORY_REPO}/${env.VERSION}/ --server-id=${ARTIFACTORY_SERVER}"
                 }
             }
         }
