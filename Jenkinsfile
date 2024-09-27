@@ -63,7 +63,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    jfrog rt config --url=https://jenkinsuni.jfrog.io/artifactorymvn-libs-release/ --apikey=$JFROG_API_KEY 
+                    jfrog rt config --url=https://jenkinsuni.jfrog.io/artifactory/mvn-libs-release/ --apikey=$JFROG_API_KEY 
                     """
                     sh "jfrog rt u 'target/*.jar' --url=https://jenkinsuni.jfrog.io/artifactory/${ARTIFACTORY_REPO}/${env.VERSION}/"
                 }
