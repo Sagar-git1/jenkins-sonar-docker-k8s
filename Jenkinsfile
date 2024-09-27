@@ -44,5 +44,32 @@ pipeline {
                 }
             }
         }
+        stage('Extract version'){
+            steps {
+                script {
+                    def pom = readMavenPom file: 'pom.xml'
+                    env.VERSION = pom.version
+                    echo "Version: ${env.VERSION}"
+                }
+            }
+        }
+        stage('Publish to Artifactory') {
+            environment {
+                ARTIFACTORY_SERVER = 'jfrogserver'
+                ARTIFACTORY_REPO = 'mvn-libs-release'
+            }
+            steps {
+                script {
+                    def server = Artifactory.server(ARTIFACTORY_SERVER)
+                    def uploadSpec = """{
+                        "files": [{
+                            "pattern" : "target/*.jar",
+                            "target" : "${ARTIFACTORY_REPO}/${env.VERSION}/"
+                        }]
+                    }"""
+                    server.upload(uploadSpec)
+                }
+            }
+        }
     }
 }
