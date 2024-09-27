@@ -61,7 +61,7 @@ pipeline {
         stage('Publish to Artifactory') {
             steps {
                 script {
-                    sh "jfrog rt u 'target/*.jar ${ARTIFACTORY_REPO}/${env.VERSION}/ --server-id=${ARTIFACTORY_SERVER}"
+                    sh "jfrog rt u 'target/*.jar' ${ARTIFACTORY_REPO}/${env.VERSION}/ --server-id=${ARTIFACTORY_SERVER}"
                 }
             }
         }
