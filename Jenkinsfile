@@ -65,7 +65,7 @@ pipeline {
                     sh """
                     jfrog rt config --url=https://jenkinsuni.jfrog.io/artifactorymvn-libs-release/ --apikey=$JFROG_API_KEY 
                     """
-                    sh "jfrog rt u 'target/*.jar' ${ARTIFACTORY_REPO}/${env.VERSION}/ --url=https://jenkinsuni.jfrog.io/artifactory/mvn-libs-release/"
+                    sh "jfrog rt u 'target/*.jar' --url=https://jenkinsuni.jfrog.io/artifactory/${ARTIFACTORY_REPO}/${env.VERSION}/"
                 }
             }
         }
