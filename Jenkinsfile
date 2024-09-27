@@ -4,6 +4,10 @@ pipeline {
             label 'jenkins-agent'
         }
     }
+    environment {
+            ARTIFACTORY_SERVER = 'jfrogserver'
+            ARTIFACTORY_REPO = 'mvn-libs-release'
+    }
     tools {
         maven 'maven-tool'
     }
@@ -47,17 +51,13 @@ pipeline {
         stage('Extract version'){
             steps {
                 script {
-                    def pom = readMavenPom file: 'pom.xml'
+                    def pom = readMavenPom file: 'pom.xml' //readMavenPOM will be coming from Pipeline Utility Steps plugin 
                     env.VERSION = pom.version
                     echo "Version: ${env.VERSION}"
                 }
             }
         }
         stage('Publish to Artifactory') {
-            environment {
-                ARTIFACTORY_SERVER = 'jfrogserver'
-                ARTIFACTORY_REPO = 'mvn-libs-release'
-            }
             steps {
                 script {
                     def server = Artifactory.server(ARTIFACTORY_SERVER)
