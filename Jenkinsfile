@@ -60,7 +60,10 @@ pipeline {
         }
         stage('Publish to Artifactory') {
             steps {
-                jf 'rt u target/*.jar ${ARTIFACTORY_REPO}/${env.VERSION}/ --server-id ${ARTIFACTORY_SERVER}'
+                script {
+                    sh "jf rt u target/*.jar ${ARTIFACTORY_REPO}/${env.VERSION}/ --server-id ${ARTIFACTORY_SERVER}"
+                }
+                 // jf 'rt u target/*.jar ${ARTIFACTORY_REPO}/${env.VERSION}/ --server-id ${ARTIFACTORY_SERVER}'
             }
         }
     }
