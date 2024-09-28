@@ -70,6 +70,9 @@ pipeline {
             steps {
                 script {
                     echo '-------------Docker image build started----------'
+                    sh '''
+                    sudo systemctl start docker
+                    '''
                     app = docker.build("${imageName}:${env.VERSION}")
                     echo '-------------Docker image build completed--------'
                     
