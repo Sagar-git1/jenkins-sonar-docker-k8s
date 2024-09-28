@@ -13,7 +13,7 @@ pipeline {
     tools {
         maven 'maven-tool'
         jfrog 'jfrogcli'
-        docker 'docker'
+        dockerTool 'docker'
     }
     stages {
         stage('Build') {
