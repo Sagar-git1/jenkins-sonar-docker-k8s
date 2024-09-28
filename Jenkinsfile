@@ -69,10 +69,10 @@ pipeline {
         stage('Docker image build'){
             steps {
                 script {
-                    echo '-------------Docker image build started----------'
                     sh '''
-                    sudo systemctl start docker
+                    sudo usermod -aG docker jenkins
                     '''
+                    echo '-------------Docker image build started----------'
                     app = docker.build("${imageName}:${env.VERSION}")
                     echo '-------------Docker image build completed--------'
                     
