@@ -6,8 +6,7 @@ pipeline {
     }
     environment {
             ARTIFACTORY_SERVER = 'jfrogserver'
-            ARTIFACTORY_REPO = 'mvn-libs-release'
-            JFROG_API_KEY = credentials('jfrog-token')
+            ARTIFACTORY_REPO = 'mvn-libs-release-local'
     }
     tools {
         maven 'maven-tool'
@@ -61,12 +60,7 @@ pipeline {
         }
         stage('Publish to Artifactory') {
             steps {
-                script {
-                    sh """
-                    jfrog rt config --url=https://jenkinsuni.jfrog.io/artifactory/mvn-libs-release/ --apikey=$JFROG_API_KEY 
-                    """
-                    sh "jfrog rt u 'target/*.jar' --url=https://jenkinsuni.jfrog.io/artifactory/${ARTIFACTORY_REPO}/${env.VERSION}/"
-                }
+                jf 'rt u target/*.jar ${ARTIFACTORY_REPO}/${env.VERSION}/ --server-id ${ARTIFACTORY_SERVER}'
             }
         }
     }
