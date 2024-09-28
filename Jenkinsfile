@@ -1,3 +1,5 @@
+def imageName = 'jenkinsuni.jfrog.io/dockermvn/javamvn'
+def registry = 'https://jenkinsuni.jfrog.io/'
 pipeline {
     agent {
         node {
@@ -60,10 +62,26 @@ pipeline {
         }
         stage('Publish to Artifactory') {
             steps {
+                jf 'rt u target/*.jar ${ARTIFACTORY_REPO}/${env.VERSION}/ --server-id ${ARTIFACTORY_SERVER}'
+            }
+        }
+        stage('Docker image build'){
+            steps {
                 script {
-                    sh "jf rt u target/*.jar ${ARTIFACTORY_REPO}/${env.VERSION}/ --server-id ${ARTIFACTORY_SERVER}"
+                    echo '-------------Docker image build started---------'
+                    app = docker.build(imageName":"env.VERSION)
+                    echo '-------------Docker image build completed-------'
+                    
                 }
-                 // jf 'rt u target/*.jar ${ARTIFACTORY_REPO}/${env.VERSION}/ --server-id ${ARTIFACTORY_SERVER}'
+            }
+        }
+        stage('Docker image publish'){
+            steps {
+                script {
+                    docker.withRegistry(registry,'jfrog-token'){
+                        app.push()
+                    }
+                }
             }
         }
     }
