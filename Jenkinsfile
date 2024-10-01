@@ -65,27 +65,24 @@ pipeline {
                 jf 'rt u target/*.jar ${ARTIFACTORY_REPO}/${env.VERSION}/ --server-id ${ARTIFACTORY_SERVER}'
             }
         }
-        // stage('Docker image build'){
-        //     steps {
-        //         script {
-        //             sh '''
-        //             sudo usermod -aG docker jenkins
-        //             '''
-        //             echo '-------------Docker image build started----------'
-        //             app = docker.build("${imageName}:${env.VERSION}")
-        //             echo '-------------Docker image build completed--------'
+        stage('Docker image build'){
+            steps {
+                script {
+                    echo '-------------Docker image build started----------'
+                    app = docker.build("${imageName}:${env.VERSION}")
+                    echo '-------------Docker image build completed--------'
                     
-        //         }
-        //     }
-        // }
-        // stage('Docker image publish'){
-        //     steps {
-        //         script {
-        //             docker.withRegistry(registry,'jfrog-token'){
-        //                 app.push()
-        //             }
-        //         }
-        //     }
-        // }
+                }
+            }
+        }
+        stage('Docker image publish'){
+            steps {
+                script {
+                    docker.withRegistry(registry,'jfrog-token'){
+                        app.push()
+                    }
+                }
+            }
+        }
     }
 }
