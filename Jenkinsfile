@@ -13,7 +13,6 @@ pipeline {
     tools {
         maven 'maven-tool'
         jfrog 'jfrogcli'
-        dockerTool 'docker'
     }
     stages {
         stage('Build') {
@@ -69,7 +68,6 @@ pipeline {
         stage('Docker image build'){
             steps {
                 script {
-                    sh 'chmod 777 /var/run/docker.sock'
                     echo '-------------Docker image build started----------'
                     app = docker.build("${imageName}:${env.VERSION}")
                     echo '-------------Docker image build completed--------'
