@@ -69,7 +69,7 @@ pipeline {
         stage('Docker image build'){
             steps {
                 script {
-                    chmod 777 '/var/run/docker.sock'
+                    sh 'chmod 777 /var/run/docker.sock'
                     echo '-------------Docker image build started----------'
                     app = docker.build("${imageName}:${env.VERSION}")
                     echo '-------------Docker image build completed--------'
