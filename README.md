@@ -133,3 +133,52 @@ And the below playbook is used to make a server as jenkins agent
         enabled: yes
         state: started
 ```
+
+We are trying to install docker in our jenkins agent server as well using below playbook
+
+#### jenkins-docker-agent.yaml
+
+```yaml
+- name: Installing docker on jenkins agent server
+  hosts: jenkins_slave
+  tasks:
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+
+    - name: Adding Docker GPG apt key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add docker repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Changing permissions docker.sock
+      file:
+        path: /var/run/docker.sock
+        mode: "0777"
+```
