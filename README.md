@@ -182,3 +182,30 @@ We are trying to install docker in our jenkins agent server as well using below 
         path: /var/run/docker.sock
         mode: "0777"
 ```
+
+With this our Jenkins setup is done using ansible and now we are going to see what all tools and plugins needed to build a pipeline for a java-based maven project.
+
+### Tools need to be configured in jenkins server
+
+- **SonarScanner**
+- **Maven**
+
+### Plugins needed to be configured
+
+- **Multibranch scan webhook trigger**
+- **Sonar Scanner**
+- **Jfrog**
+- **Pipeline Utility Steps**
+- **Docker Pipeline**
+
+---
+
+One more thing also need to be configured in system section under manage jenkins
+
+- This is required to make jenkins know about jfrog artifactory server and sonarqube server
+
+Credentials also need to be added inorder to get authenticated with these servers
+
+- Jfrog token (username with password)
+- Sonar token (secret text)
+- Git hub credentials (username with password)
